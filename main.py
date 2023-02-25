@@ -30,12 +30,9 @@ def draw_polygon (frame, points):
 
 
 def main():
-    # video = VideoStream(src=0).start()
-    video = cv2.VideoCapture("video_demo.mp4")
-    # C:\Users\Admin\Downloads\project3\test_code\Intrusion_Warning\video_demo.mp4
+    video = VideoStream(src=0).start()
+    
     # Chua cac diem nguoi dung chon de tao da giac
-    fourcc = cv2.VideoWriter_fourcc('X','V','I','D')
-    out = cv2.VideoWriter('output.avi',fourcc, 2.0, (1280,720))
     points = []
     power = pow(10, 6)
     model_person_detection = Person_Detection()
@@ -45,12 +42,10 @@ def main():
     run = False
     start = time.time()
     while True:
-        _, frame = video.read()
+        frame = video.read()
         frame = cv2.flip(frame, 1)
-        frame = cv2.resize(frame, (1280, 720))
         temp_frame = frame
         familiar = False
-        print(frame.shape)
         if detect:
             boxes_face, _ = mtcnn.detect(frame)
             if (time.time() - start) > 5:
@@ -73,7 +68,6 @@ def main():
                     bbox = list(map(int, box.tolist()))
                     face = extract_face(bbox, frame)
                     idx, score = inference(face, embeddings)
-                    print(score)
                     if idx != -1:
                         familiar = True
                         frame = cv2.rectangle(frame, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (0, 0, 255), 6)
@@ -98,15 +92,13 @@ def main():
                     label = f'{names[int(cls)]} {conf:.2f}'
                     plot_one_box(xyxy, frame_add_polygon, label=label, color=(255, 0, 0), line_thickness=1)
                     model_person_detection.draw_prediction(frame_add_polygon, xyxy, points, familiar)
-        out.write(frame)
+
         # # Hien anh ra man hinh
         cv2.imshow("Intrusion Warning", frame_add_polygon)
 
         cv2.setMouseCallback('Intrusion Warning', handle_left_click, points)
 
-    # video.stop()
-    out.release()
-    video.release()
+    video.stop()
     cv2.destroyAllWindows()
 
 

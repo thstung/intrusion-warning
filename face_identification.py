@@ -51,7 +51,6 @@ def inference(face, local_embeds, threshold=0.15):
     norm_score = torch.sum(torch.pow(norm_diff, 2), dim=1)  # (1,n), moi cot la tong khoang cach euclide so vs embed moi
 
     min_dist, embed_idx = torch.min(norm_score, dim=1)
-    print(min_dist.double() * power)
     # print(min_dist.shape)
     if float(min_dist) * power < threshold or float(min_dist) * power > threshold*10:
         return -1, -1

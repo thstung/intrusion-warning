@@ -126,7 +126,6 @@ class Person_Detection():
         img, outs = self.detect_person(frame, model = self.model)
 
         for detection in outs:
-            print(detection)
             class_id = int(detection[5])
             confidence = detection[4]
             if (float(confidence) >= self.conf_thres) and (self.classes[class_id] == self.detect_class):
@@ -138,7 +137,6 @@ class Person_Detection():
                 y = center_y - h / 2
                 class_ids.append(class_id)
                 confidences.append(float(confidence))
-                print('x, y, w, h:', [x, y, w, h])
                 boxes.append([x, y, w, h])
         if len(boxes) == 0:
             self.is_bbox_null = True
