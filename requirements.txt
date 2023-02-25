@@ -1,0 +1,15 @@
+opencv-python
+opencv-python-headless
+tensorflow
+tensorflow-plot
+cython
+albumentations
+pillow
+pytorch
+torch
+torchvision
+opencv-python
+numpy
+imutils
+facenet_pytorch
+python-telegram-bot
